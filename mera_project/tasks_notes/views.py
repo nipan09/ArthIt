@@ -1,10 +1,19 @@
-from django.shortcuts import render
+from django.shortcuts import render, HttpResponseRedirect
+from django.contrib.auth.forms import UserCreationForm
 
 def index(request):
 	return render(request, 'tasks_notes/index.html')
 
 def login(request):
 	return render(request, 'registeration/login.html')
+
+def add_item(request):
+    name = request.POST['expense_name']    
+    expense_cost = request.POST['cost']  
+    expense_date = request.POST['expense_date']
+    ExpenseInfo.objects.create(expense_name=name,cost=expense_cost,date_added=expense_date,user_expense=request.user)
+    return HttpResponseRedirect('app')
+
 
 def sign_up(request):
 	if request.method=='POST':
@@ -13,9 +22,7 @@ def sign_up(request):
 			user=form.save()
 			login(request,user)
 			return HttpResponseRedirect('app')
-		else:
-			for msg in form.error_messages:
-				print(form.error_messages[msg])
 	else:
-		form= UserCreationForm
-		return render(request, 'tasks_notes/signup.html', {'form':form})
+		form= UserCreationForm()
+		args= {'form': form}
+		return render(request, 'tasks_notes/signup.html', args)
