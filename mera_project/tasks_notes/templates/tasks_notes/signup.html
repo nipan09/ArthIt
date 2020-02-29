@@ -2,12 +2,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+	<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <title>Document</title>
+    <title>SignUp</title>
 </head>
 <body>
     
@@ -15,7 +15,7 @@
         <h2 class="center">Create an account</h2>
         <form method='post' action = '{% url "sign up" %}'>
             {% csrf_token %}
-            {{form.as_p}}
+            {{ form.as_p }}
             <button class='btn waves-effect' type="submit">Register</button>
         </form>
     </div>

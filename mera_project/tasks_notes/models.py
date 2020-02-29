@@ -6,8 +6,8 @@ class AccountInfo(models.Model):
 
 class BudgetInfo(models.Model):
     items= models.CharField(max_length=20)
-    cost= models.FloatField()
-    date_added= models.DateField()
+    cost= models.FloatField(blank=False, null=True)
+    date_added= models.DateField(auto_now=True)
     user= models.ForeignKey(AccountInfo, on_delete= models.CASCADE)
     
 

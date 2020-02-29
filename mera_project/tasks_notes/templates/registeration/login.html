@@ -14,7 +14,7 @@
 	</div>
 	<div class="section">
 		<div class="container">
-			<form method="post">
+			<form action= "{% url 'login' %}" method="post">
 				{% csrf_token %}
 				{{form.as_p}}
 				<button class="btn waves-effect" type='submit'>Login</button>

@@ -19,6 +19,4 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url('', include('tasks_notes.urls')),
-    url('app', include('tasks_notes.urls')),
-    url('sign_up', include('tasks_notes.urls'))
 ]
