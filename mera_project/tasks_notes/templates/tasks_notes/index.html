@@ -32,7 +32,7 @@
                     {% csrf_token %}
                     <div class="row">
                         <div class="container center">
-                            <h3 class='center'>Your total budget is: <span style="color:green;">{{ budget }}</span> dollars</h3>
+                            <h3 class='center'>Your total budget is: <span style="color:green;">{{ budget|floatformat:"-2" }}</span> dollars</h3>
                             <h3 class='center'>You've spent a total of: <span style="color:red;">{{ expenses }}</span> dollars</h3>
                             <br>
                             <br>
@@ -71,7 +71,7 @@
                             </thead>
 
                             <tbody>
-                                {% for expense_item in expense_items %}
+                                {% for post in post %}
                                 <tr>
                                     <td>{{ expense_item.expense_name }}</td>
                                     <td>{{ expense_item.cost }}</td>
