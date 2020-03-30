@@ -32,8 +32,7 @@
                     {% csrf_token %}
                     <div class="row">
                         <div class="container center">
-                            <h3 class='center'>Your total budget is: <span style="color:green;">{{ budget|floatformat:"-2" }}</span> dollars</h3>
-                            <h3 class='center'>You've spent a total of: <span style="color:red;">{{ expenses }}</span> dollars</h3>
+                            <h3 class='center'>You've spent a total of: <span style="color:green;">{{ budget|floatformat:"-2" }}</span> dollars</h3>
                             <br>
                             <br>
                             <div class="input-field col s3">
@@ -65,18 +64,17 @@
                             <thead>
                                 <tr>
                                     <th>Item</th>
-                                    <th>Amount</th>
+                                    <th>Amount(Rs.)</th>
                                     <th>Date</th>
                                 </tr>
                             </thead>
 
                             <tbody>
-                                {% for post in post %}
+                                {% for obj in uzer %}
                                 <tr>
-                                    <td>{{ expense_item.expense_name }}</td>
-                                    <td>{{ expense_item.cost }}</td>
-                                    <td>{{ expense_item.date_added}}</td>
-                                    <td></td>
+                                    <td>{{ obj.item }}</td>
+                                    <td>{{ obj.cost }}</td>
+                                    <td>{{ obj.date_added }}</td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
