@@ -5,7 +5,7 @@
 <html>
 
     <head>
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
         <title>Budget App</title>
         
@@ -32,7 +32,7 @@
                     {% csrf_token %}
                     <div class="row">
                         <div class="container center">
-                            <h3 class='center'>You've spent a total of: <span style="color:green;">{{ budget|floatformat:"-2" }}</span> dollars</h3>
+                            <h3 class='center'>Expenditure of this month: <span style="color:green;">{{ budget|floatformat:"-2" }}</span> dollars</h3>
                             <br>
                             <br>
                             <div class="input-field col s3">
@@ -47,9 +47,7 @@
                                 <input placeholder='Date of Expense' name="expense_date" id="expense_date" type="text" class='datepicker'>
                                 <label for="expense_date">Expense Date</label>
                             </div>
-                            <button class="btn waves-effect waves-light" type="submit" name="action">Add Expense
-                                <i class="material-icons right">add_circle</i>
-                            </button>
+                            <button class="btn waves-effect waves-light" type="submit" name="action">Add Expense</button>
                         </div>
                     </div>
                 </form>
@@ -72,9 +70,9 @@
                             <tbody>
                                 {% for obj in uzer %}
                                 <tr>
-                                    <td>{{ obj.item }}</td>
-                                    <td>{{ obj.cost }}</td>
-                                    <td>{{ obj.date_added }}</td>
+                                    <td class="table-light">{{ obj.item }}</td>
+                                    <td class="table-light">{{ obj.cost }}</td>
+                                    <td class="table-light">{{ obj.date_added }}</td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
