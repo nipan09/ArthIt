@@ -8,7 +8,6 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
         <title>Budget App</title>
-        
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </head>
 
@@ -16,17 +15,24 @@
         
         <nav>
             <div class="nav-wrapper">
-               <a href='{% url "profile" %}' class='brand-logo center'> Hi, {{ user }}  </a>
-                <ul class="right">
-                    <form action= "{% url 'login' %}" method="post">
-                        {% csrf_token %}
-                        <button class="btn waves-effect" type='submit'>Logout</button>
-                     </form>
-                </ul>
+               {% if user.is_authenticated %}
+                     <h5 class='brand-logo center'> Hi, {{ user }}  </h5>
+                     <ul class="right">
+                        <a href="{% url 'logout' %}"> Logout</a>
+                    </ul>
+                {% else %}
+                      <ul class="left hide-on-med-and-down">
+                         {% csrf_token %}
+                         <a href="{% url 'login' %}"> Login/Signup</a>
+                      </ul>
+                {% endif %}
+
             </div>
         </nav>
-        <br>
-        <div class="section">
+
+        {% if user.is_authenticated %}
+          <br>
+          <div class="section">
             <div class="row">
                 <form class="col s12" action='{% url "add item" %}' method='post'>
                     {% csrf_token %}
@@ -83,12 +89,7 @@
                     </div>
                 </div>
         </div>
-
-            
         </div>
-
-
-
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
         <script type="text/javascript">
@@ -96,7 +97,11 @@
                 var elems = document.querySelectorAll('.datepicker');
                 var instances = M.Datepicker.init(elems, {format:'yyyy-mm-dd'});
             });
-        </script>
+        </script> 
+
+        {% else %}
+           LOGIN FIRST
+        {%  endif %}
     </body>
 
 </html>
