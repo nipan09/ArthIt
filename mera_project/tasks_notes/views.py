@@ -4,6 +4,7 @@ from tasks_notes.forms import RegisterationForm
 from django.contrib.auth import login, logout
 from tasks_notes.models import BudgetInfo
 from datetime import datetime
+from .tasks import monthly_starting_value
 
 def profile_view(request):
     return render(request, 'tasks_notes/index.html')
@@ -18,6 +19,10 @@ def login_view(request):
 	else: 
 		form= AuthenticationForm()
 	return render(request, 'registeration/login.html', {'form':form})
+
+def logout_view(request):
+	logout(request)
+	return redirect('login')
 
 def additem_view(request):
     name = request.POST['expense_name']
@@ -38,12 +43,17 @@ def signup_view(request):
 	return render(request, 'tasks_notes/signup.html',{'form':form})
  
 def app_view(request):
-	bal_qs = [int(obj.cost) for obj in BudgetInfo.objects.filter(user=request.user)]
-	now = [i.lstrip("0") for i in datetime.now().strftime("%d")]
-	budget=0
-	if now[0]!='1':
+	if request.user.is_authenticated:
+		bal_qs = [int(obj.cost) for obj in BudgetInfo.objects.filter(user=request.user)]
+		now = [i.lstrip("0") for i in datetime.now().strftime("%d")]
+		budget = 0
 		for obj in range(len(bal_qs)):
 			budget=budget+bal_qs[obj]
-	uzer_qs = BudgetInfo.objects.filter(user=request.user).order_by('-date_added')
-	return render(request,'tasks_notes/index.html',{'budget':budget,'uzer':uzer_qs[0:5]})
-
+		print("budget"+ str(budget))
+		result = monthly_starting_value.delay()
+		abcd = result.get()
+		print(abcd)
+		uzer_qs = BudgetInfo.objects.filter(user=request.user).order_by('-date_added')
+		return render(request,'tasks_notes/index.html',{'budget':budget,'uzer':uzer_qs[0:5]})
+	else:
+		return render(request,'tasks_notes/index.html')
