@@ -5,9 +5,8 @@ from django.contrib.auth import login, logout
 from tasks_notes.models import BudgetInfo
 from datetime import datetime
 from .tasks import monthly_starting_value
-
-def profile_view(request):
-    return render(request, 'tasks_notes/index.html')
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 
 def login_view(request):
 	if request.method == 'POST':
@@ -15,7 +14,7 @@ def login_view(request):
 		if form.is_valid():
 			user=form.get_user()
 			login(request,user)
-			return redirect('app')
+			return HttpResponseRedirect(reverse('app', kwargs={'username':user.username}))
 	else: 
 		form= AuthenticationForm()
 	return render(request, 'registeration/login.html', {'form':form})
@@ -42,7 +41,7 @@ def signup_view(request):
 		form=RegisterationForm()
 	return render(request, 'tasks_notes/signup.html',{'form':form})
  
-def app_view(request):
+def app_view(request,username):
 	if request.user.is_authenticated:
 		bal_qs = [int(obj.cost) for obj in BudgetInfo.objects.filter(user=request.user)]
 		now = [i.lstrip("0") for i in datetime.now().strftime("%d")]
