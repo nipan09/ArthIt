@@ -5,10 +5,9 @@
 <html>
 
     <head>
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
         <title>Budget App</title>
-        
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </head>
 
@@ -16,24 +15,30 @@
         
         <nav>
             <div class="nav-wrapper">
-               <a href='{% url "profile" %}' class='brand-logo center'> Hi, {{ user }}  </a>
-                <ul class="right">
-                    <form action= "{% url 'login' %}" method="post">
-                        {% csrf_token %}
-                        <button class="btn waves-effect" type='submit'>Logout</button>
-                     </form>
-                </ul>
+               {% if user.is_authenticated %}
+                     <h5 class='brand-logo center'> Hi, {{ user }}  </h5>
+                     <ul class="right">
+                        <a href="{% url 'logout' %}"> Logout</a>
+                    </ul>
+                {% else %}
+                      <ul class="left hide-on-med-and-down">
+                         {% csrf_token %}
+                         <a href="{% url 'login' %}"> Login/Signup</a>
+                      </ul>
+                {% endif %}
+
             </div>
         </nav>
-        <br>
-        <div class="section">
+
+        {% if user.is_authenticated %}
+          <br>
+          <div class="section">
             <div class="row">
                 <form class="col s12" action='{% url "add item" %}' method='post'>
                     {% csrf_token %}
                     <div class="row">
                         <div class="container center">
-                            <h3 class='center'>Your total budget is: <span style="color:green;">{{ budget }}</span> dollars</h3>
-                            <h3 class='center'>You've spent a total of: <span style="color:red;">{{ expenses }}</span> dollars</h3>
+                            <h3 class='center'>Expenditure of this month: <span style="color:green;">{{ budget|floatformat:"-2" }}</span> dollars</h3>
                             <br>
                             <br>
                             <div class="input-field col s3">
@@ -48,9 +53,7 @@
                                 <input placeholder='Date of Expense' name="expense_date" id="expense_date" type="text" class='datepicker'>
                                 <label for="expense_date">Expense Date</label>
                             </div>
-                            <button class="btn waves-effect waves-light" type="submit" name="action">Add Expense
-                                <i class="material-icons right">add_circle</i>
-                            </button>
+                            <button class="btn waves-effect waves-light" type="submit" name="action">Add Expense</button>
                         </div>
                     </div>
                 </form>
@@ -65,19 +68,17 @@
                             <thead>
                                 <tr>
                                     <th>Item</th>
-                                    <th>Amount</th>
+                                    <th>Amount(Rs.)</th>
                                     <th>Date</th>
-                                    <th></th>
                                 </tr>
                             </thead>
 
                             <tbody>
-                                {% for expense_item in expense_items %}
+                                {% for obj in uzer %}
                                 <tr>
-                                    <td>{{ expense_item.expense_name }}</td>
-                                    <td>{{ expense_item.cost }}</td>
-                                    <td>{{ expense_item.date_added}}</td>
-                                    <td></td>
+                                    <td class="table-light">{{ obj.item }}</td>
+                                    <td class="table-light">{{ obj.cost }}</td>
+                                    <td class="table-light">{{ obj.date_added }}</td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
@@ -88,12 +89,7 @@
                     </div>
                 </div>
         </div>
-
-            
         </div>
-
-
-
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
         <script type="text/javascript">
@@ -101,7 +97,11 @@
                 var elems = document.querySelectorAll('.datepicker');
                 var instances = M.Datepicker.init(elems, {format:'yyyy-mm-dd'});
             });
-        </script>
+        </script> 
+
+        {% else %}
+           LOGIN FIRST
+        {%  endif %}
     </body>
 
 </html>

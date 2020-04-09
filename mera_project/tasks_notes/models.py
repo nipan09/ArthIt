@@ -1,13 +1,11 @@
 from django.db import models
-
-class AccountInfo(models.Model):
-	username= models.CharField(max_length=20)
-	password= models.CharField(max_length=20)
+from django.contrib.auth.models import User
 
 class BudgetInfo(models.Model):
-    items= models.CharField(max_length=20)
+    item= models.CharField(max_length=20)
     cost= models.FloatField(blank=False, null=True)
-    date_added= models.DateField(auto_now=True)
-    user= models.ForeignKey(AccountInfo, on_delete= models.CASCADE)
-    
+    date_added= models.DateField()
+    user= models.ForeignKey(User, on_delete= models.CASCADE)
 
+    def __str__(self):
+    	return str(self.user)
