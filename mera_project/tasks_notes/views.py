@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.forms import AuthenticationForm
 from tasks_notes.forms import RegisterationForm
 from django.contrib.auth import login, logout
-from tasks_notes.models import BudgetInfo
+from tasks_notes.models import BudgetInfo, UserInfo
 from datetime import datetime
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
@@ -27,6 +27,15 @@ def additem_view(request):
     expense_cost = request.POST['cost']
     expense_date = request.POST['expense_date']
     BudgetInfo.objects.create(user= request.user,item=name,cost=expense_cost,date_added=expense_date)
+    user_qs = UserInfo.objects.filter(name=request.user)
+    if user_qs.exists():
+    	user_obj = user_qs[0]
+    	total = user_obj.total_exp
+    	total+= float(expense_cost)
+    	user_obj.total_exp = total
+    	user_obj.save(update_fields=['total_exp'])
+    else:
+    	UserInfo.objects.create(name=request.user, total_exp=expense_cost)
     return HttpResponseRedirect(reverse('app', kwargs={'username':request.user}))
 
 def signup_view(request):
@@ -45,11 +54,8 @@ def index_view(request):
 
 def app_view(request, username):
 	if request.user.is_authenticated:
-		bal_qs = [int(obj.cost) for obj in BudgetInfo.objects.filter(user=request.user)]
-		#now = [i.lstrip("0") for i in datetime.now().strftime("%d")]
-		budget = 0
-		for obj in range(len(bal_qs)):
-			budget=budget+bal_qs[obj]
+		budget_qs = UserInfo.objects.filter(name=request.user)
+		budget = budget_qs[0].total_exp
 		uzer_qs = BudgetInfo.objects.filter(user=request.user).order_by('-date_added')
 		return render(request,'tasks_notes/index.html',{'budget':budget,'uzer':uzer_qs[0:5]})
 	else:
