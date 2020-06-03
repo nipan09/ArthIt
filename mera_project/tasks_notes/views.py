@@ -34,9 +34,6 @@ def logout_view(request):
 	logout(request)
 	return redirect('login')
 
-def index_view(request):
-	return render(request, 'tasks_notes/index.html')
-
 def additem_view(request):
     name = request.POST['expense_name']
     expense_cost = request.POST['cost']
