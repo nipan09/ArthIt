@@ -16,7 +16,7 @@
         <nav>
             <div class="nav-wrapper">
                {% if user.is_authenticated %}
-                     <h5 class='brand-logo center'> Hi, {{ user }}  </h5>
+                     <h5 class='brand-logo center'> Hi, <a href="{% url 'profile' user %}"> {{ user }} </a> </h5>
                      <ul class="right">
                         <a href="{% url 'logout' %}"> Logout</a>
                     </ul>
@@ -38,7 +38,8 @@
                     {% csrf_token %}
                     <div class="row">
                         <div class="container center">
-                            <h3 class='center'>Expenditure of this month: <span style="color:green;">{{ budget|floatformat:"-2" }}</span> dollars</h3>
+                            <h3 class='center'>Expenditure of this month: <span style="color:green;">{{ budget.total_exp|floatformat:"-2" }}</span> dollars</h3>
+                            <h3 class='center'>Your Income: <span style="color:green;">{{ budget.income|floatformat:"-2" }}</span> dollars</h3>
                             <br>
                             <br>
                             <div class="input-field col s3">
