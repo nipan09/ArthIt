@@ -10,18 +10,6 @@ pipeline{
                     '''
 			   }
 		}
-		stage('Collect Static files')
-		{
-			steps
-			{
-				echo "Collecting static files.."
-				
-				sh'''
-					cd mera_project/
-					python3 manage.py collectstatic --noinput
-				'''
-			}
-		}
 		stage('Run Unit/ Integration Tests'){
 			steps{
 				echo "Running Unit/Integration Tests.."
