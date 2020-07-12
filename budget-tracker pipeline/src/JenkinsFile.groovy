@@ -6,7 +6,7 @@ pipeline{
 			steps{
 			  echo "Building the project.."
 			  sh'''
-					pip install -r requirements.txt
+					pip3 install -r requirements.txt
                     '''
 			   }
 		}
@@ -24,7 +24,7 @@ pipeline{
 			steps{
 				echo "Running Unit/Integration Tests.."
 				sh'''
-					python manage.py test
+					python3 manage.py test
 				'''
 			}
 		}
