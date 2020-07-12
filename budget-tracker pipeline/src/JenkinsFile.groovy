@@ -6,9 +6,7 @@ pipeline{
 			steps{
 			  echo "Building the project.."
 			  sh'''
-                    source bin/activate
 					pip install -r requirements.txt
-				    deactivate
                     '''
 			   }
 		}
@@ -18,9 +16,7 @@ pipeline{
 			{
 				echo "Collecting static files.."
 				sh'''
-					source bin/activate
 					python3 manage.py collectstatic --noinput
-				    deactivate
 				'''
 			}
 		}
@@ -28,9 +24,7 @@ pipeline{
 			steps{
 				echo "Running Unit/Integration Tests.."
 				sh'''
-					source bin/activate
 					python manage.py test
-					deactivate
 				'''
 			}
 		}
