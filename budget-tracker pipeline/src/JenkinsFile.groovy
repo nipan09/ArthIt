@@ -33,7 +33,7 @@ pipeline{
 			emailext (
 				to : "nishantpandey9899@gmail.com, pandey.nishant489@gmail.com",
 				subject: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
-				body: """<p>FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' at job_id:'$[{env.BUILD_ID}]:</p>
+				body: """<p>FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' at job_id:'[${env.BUILD_ID}]:</p>
                 Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;""",
 				recipientProviders: [[$class: 'DevelopersRecipientProvider']]
 				)
