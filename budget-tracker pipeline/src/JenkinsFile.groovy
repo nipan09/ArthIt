@@ -4,7 +4,7 @@ pipeline{
 	{
 	  stage('Build'){
 			steps{
-			  echo "Building the project.."
+			  echo "Building the project..."
 			  sh'''
 					python3 -m pip install -r requirements.txt
                     '''
